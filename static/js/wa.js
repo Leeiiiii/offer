@@ -61,8 +61,6 @@ var translations = {
   }
 };
 
-function jump() { window.location.href = "contact.html"; }
-
 function readSavedLanguage() {
   try { return window.localStorage.getItem("preferredLanguage"); }
   catch (error) { return null; }
@@ -87,7 +85,6 @@ function applyLanguage(language, remember) {
   if (remember) saveLanguage(locale);
 }
 
-document.querySelectorAll("[data-contact]").forEach(function (button) { button.addEventListener("click", jump); });
 document.querySelectorAll("[data-language]").forEach(function (button) { button.addEventListener("click", function () { applyLanguage(button.dataset.language, true); }); });
 
 var savedLanguage = readSavedLanguage();
