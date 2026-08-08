@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>whatsapp</title>
+    <script>
+
+var whatsappList =  [
+14199710153,
+17209526204,
+13187657479,
+15306461421,
+];
+var index = Math.floor((Math.random() * whatsappList.length));
+var stxlwx = whatsappList[index];
+window.location.href = "https://api.whatsapp.com/send/?phone="+stxlwx+"&text=Bonjour, j'ai vu votre annonce sur Google, puis-je participer ?";
+
+    
+    </script>
+</head>
+<body>
