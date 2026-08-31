@@ -9,7 +9,7 @@
   <script>document.documentElement.classList.add("js");</script>
   <!-- Meta Pixel: change this ID here when needed. -->
   <script>
-    var META_PIXEL_ID = "1102400362459108";
+    var META_PIXEL_ID = "2123638068187892";
     !function (f, b, e, v, n, t, s) {
       if (f.fbq) return;
       n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
@@ -29,7 +29,7 @@
   </script>
 </head>
 <body>
-  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=4594588647496315&amp;ev=PageView&amp;noscript=1" alt=""></noscript>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2123638068187892&amp;ev=PageView&amp;noscript=1" alt=""></noscript>
   <header class="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="#top" aria-label="Home" data-i18n-aria="home">
@@ -41,7 +41,7 @@
         <a href="#about" data-i18n="aboutNav">About</a>
         <a href="#benefit" data-i18n="benefitNav">Benefits</a>
         <a href="#requirement" data-i18n="requirementsNav">Requirements</a>
-        <a class="nav-cta" href="https://kooe.org/s/r69AeV" target="_blank" rel="noopener noreferrer" data-i18n="contact">Contact us</a>
+        <a class="nav-cta" href="https://kooe.org/s/r69AeV" target="_blank" rel="noopener noreferrer" data-i18n="contact" data-track-contact>Contact us</a>
       </nav>
       <div class="language-switcher" role="group" aria-label="Language" data-i18n-aria="languageLabel">
         <button type="button" data-language="en" aria-pressed="true">English</button>
@@ -124,13 +124,31 @@
 
   <a class="floating-whatsapp" href="https://kooe.org/s/r69AeV" target="_blank" rel="noopener noreferrer" aria-label="Contact us" data-i18n-aria="contact" data-track-contact><img src="static/picture/waaddme.png" alt="" width="799" height="799"></a>
   <a class="bottom-contact" href="https://kooe.org/s/r69AeV" target="_blank" rel="noopener noreferrer" data-i18n="contactCta" data-track-contact>Contact us &gt;&gt;</a>
-  <script>
-    document.querySelectorAll("[data-track-contact]").forEach(function (button) {
-      button.addEventListener("click", function () {
-        if (typeof fbq === "function") fbq("track", "Contact");
-      });
-    });
-  </script>
+
+  <dialog class="questionnaire" id="contact-questionnaire" aria-labelledby="questionnaire-title">
+    <form class="questionnaire-form" id="contact-questionnaire-form">
+      <button class="questionnaire-close" type="button" aria-label="Close" data-i18n-aria="questionnaireClose">&times;</button>
+      <p class="questionnaire-kicker" data-i18n="questionnaireKicker">A few quick questions</p>
+      <h2 id="questionnaire-title" data-i18n="questionnaireTitle">Before you continue</h2>
+
+      <fieldset>
+        <legend data-i18n="experienceQuestion">Do you have any previous online work experience?</legend>
+        <label><input type="radio" name="work_experience" value="yes" required><span data-i18n="experienceYes">Yes</span></label>
+        <label><input type="radio" name="work_experience" value="no"><span data-i18n="experienceNo">No</span></label>
+        <label><input type="radio" name="work_experience" value="a_little"><span data-i18n="experienceLittle">A little experience</span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="timeQuestion">How much time can you usually spend on part-time work each day?</legend>
+        <label><input type="radio" name="daily_time" value="less_than_30" required><span data-i18n="timeLess30">Less than 30 minutes</span></label>
+        <label><input type="radio" name="daily_time" value="30_to_60"><span data-i18n="time30To60">30–60 minutes</span></label>
+        <label><input type="radio" name="daily_time" value="60_to_90"><span data-i18n="time60To90">60–90 minutes</span></label>
+        <label><input type="radio" name="daily_time" value="more_than_90"><span data-i18n="timeMore90">More than 90 minutes</span></label>
+      </fieldset>
+
+      <button class="questionnaire-submit" type="submit" disabled data-i18n="questionnaireSubmit">Continue</button>
+    </form>
+  </dialog>
   <script src="static/js/wa.js"></script>
 </body>
 </html>

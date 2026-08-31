@@ -27,7 +27,11 @@ var translations = {
     requirementsKicker: "Work part-time anytime, anywhere", requirementsTitle: "Requirements:",
     requirementsText: "No experience required.<br>1 - Have a bank card.<br>2 - Work part-time for half an hour.<br>3 - Work from your mobile phone.<br>4 - Open to all genders.<br>5 - A very small amount of start-up capital is required.<br>6 - Have a bank card.<br>7 - You must be over 23 years old. People under 23 will not be paid.",
     aboutKicker: "About us", aboutTitle: "Stay in touch", aboutText: "Contact us through WhatsApp for incentives and online part-time job opportunities.",
-    aboutImageAlt: "Woman using her phone in a home workspace", contactCta: "Contact us >>"
+    aboutImageAlt: "Woman using her phone in a home workspace", contactCta: "Contact us >>",
+    questionnaireKicker: "A few quick questions", questionnaireTitle: "Before you continue", questionnaireClose: "Close",
+    experienceQuestion: "Do you have any previous online work experience?", experienceYes: "Yes", experienceNo: "No", experienceLittle: "A little experience",
+    timeQuestion: "How much time can you usually spend on part-time work each day?", timeLess30: "Less than 30 minutes", time30To60: "30–60 minutes", time60To90: "60–90 minutes", timeMore90: "More than 90 minutes",
+    questionnaireSubmit: "Continue"
   },
   am: {
     pageTitle: "ከቤት የሚሰራ የትርፍ ጊዜ ስራ | የመስመር ላይ ስራዎች | በመስመር ላይ ገንዘብ ለማግኘት ምርጥ መንገዶች",
@@ -57,7 +61,11 @@ var translations = {
     requirementsKicker: "በማንኛውም ጊዜና ቦታ በትርፍ ጊዜ ይስሩ", requirementsTitle: "መስፈርቶች፦",
     requirementsText: "ልምድ አያስፈልግም።<br>1 - የባንክ ካርድ ይኑርዎት።<br>2 - ለግማሽ ሰዓት በትርፍ ጊዜ ይስሩ።<br>3 - ከሞባይል ስልክዎ ይስሩ።<br>4 - ለሁሉም ጾታዎች ክፍት ነው።<br>5 - በጣም ትንሽ የመነሻ ካፒታል ያስፈልጋል።<br>6 - የባንክ ካርድ ይኑርዎት።<br>7 - ከ23 ዓመት በላይ መሆን አለብዎት። ከ23 ዓመት በታች ለሆኑ ሰዎች ክፍያ አይሰጥም።",
     aboutKicker: "ስለ እኛ", aboutTitle: "ተገናኝተን እንቆይ", aboutText: "ለማበረታቻዎችና ለመስመር ላይ የትርፍ ጊዜ የስራ እድሎች በWhatsApp ያግኙን።",
-    aboutImageAlt: "በቤት የስራ ቦታ ስልኳን የምትጠቀም ሴት", contactCta: "ያግኙን >>"
+    aboutImageAlt: "በቤት የስራ ቦታ ስልኳን የምትጠቀም ሴት", contactCta: "ያግኙን >>",
+    questionnaireKicker: "ጥቂት ፈጣን ጥያቄዎች", questionnaireTitle: "ከመቀጠልዎ በፊት", questionnaireClose: "ዝጋ",
+    experienceQuestion: "ከዚህ በፊት የመስመር ላይ የስራ ልምድ አለዎት?", experienceYes: "አዎ", experienceNo: "የለኝም", experienceLittle: "ትንሽ ልምድ አለኝ",
+    timeQuestion: "በየቀኑ ለትርፍ ጊዜ ስራ ምን ያህል ጊዜ መመደብ ይችላሉ?", timeLess30: "ከ30 ደቂቃ በታች", time30To60: "30–60 ደቂቃ", time60To90: "60–90 ደቂቃ", timeMore90: "ከ90 ደቂቃ በላይ",
+    questionnaireSubmit: "ቀጥል"
   }
 };
 
@@ -90,3 +98,48 @@ document.querySelectorAll("[data-language]").forEach(function (button) { button.
 var savedLanguage = readSavedLanguage();
 var browserLanguage = (navigator.languages && navigator.languages[0]) || navigator.language || "en";
 applyLanguage(savedLanguage || (browserLanguage.toLowerCase().startsWith("am") ? "am" : "en"), false);
+
+var questionnaire = document.getElementById("contact-questionnaire");
+var questionnaireForm = document.getElementById("contact-questionnaire-form");
+var questionnaireSubmit = questionnaireForm.querySelector("[type='submit']");
+var questionnaireClose = questionnaireForm.querySelector(".questionnaire-close");
+var contactUrl = "";
+
+function updateQuestionnaireSubmit() {
+  questionnaireSubmit.disabled = !questionnaireForm.checkValidity();
+}
+
+document.querySelectorAll("[data-track-contact]").forEach(function (button) {
+  button.addEventListener("click", function (event) {
+    event.preventDefault();
+    contactUrl = button.href;
+    questionnaireForm.reset();
+    updateQuestionnaireSubmit();
+    questionnaire.showModal();
+  });
+});
+
+questionnaireForm.addEventListener("change", updateQuestionnaireSubmit);
+
+questionnaireClose.addEventListener("click", function () {
+  questionnaire.close();
+});
+
+questionnaire.addEventListener("click", function (event) {
+  if (event.target === questionnaire) questionnaire.close();
+});
+
+questionnaireForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  if (!questionnaireForm.checkValidity() || !contactUrl) return;
+
+  var answers = new FormData(questionnaireForm);
+  questionnaireSubmit.disabled = true;
+  if (typeof fbq === "function") {
+    fbq("track", "Contact", {
+      work_experience: answers.get("work_experience"),
+      daily_time: answers.get("daily_time")
+    });
+  }
+  window.location.assign(contactUrl);
+});
